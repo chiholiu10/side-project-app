@@ -44,7 +44,6 @@ const mapDispatchToProps = dispatch => ({
 });
 
 const mapStateToProps = state => {
-    console.log(state.app.memoryCards);
     return { 
         chosenImage: state.app.memoryCards || [],
         introType: state.app.intro.type || [],

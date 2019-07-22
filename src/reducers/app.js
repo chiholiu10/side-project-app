@@ -82,6 +82,7 @@ const reducer = (state = initialState, action) => {
         
         case types.CHECK_MATCHED_CARD: {
             let memoryCards = memoryCardArray.map((card, index) => {
+
                 if((index === action.index) && (state.intro.type !== action.currentCardType)) {
                     return {
                         ...card,
@@ -101,6 +102,7 @@ const reducer = (state = initialState, action) => {
 
         case types.CALCULATION: {
             if(introType === currentCardType) {
+          
                 return {
                     ...state,
                     score: state.score + 200,
@@ -115,15 +117,22 @@ const reducer = (state = initialState, action) => {
         }
 
         case types.CHECK_RESULT: {
-            let memoryCards = memoryCardArray.map((card, index) => {
-                
-               if(memoryCardArray[index].hasOwnProperty('disabled') === true) {
-                   console.log(memoryCardArray[index].length)
-               }
+            
+            const result = memoryCardArray.filter(card => {
+                const matchCardType = (card.type === introType);
+                const newCards = (matchCardType && (card.hasOwnProperty('disabled')));
+                const cardLeft = matchCardType - newCards;
 
-                // console.log(action.chosenImage[index].length);
+                return cardLeft
             });
+            
+            if(result.length === 0) {
+                
+                console.log('winner or loser');
+            }
 
+            console.log(result.length);
+            // console.log(result);
             // const won = true;
             // let currentLevel = levelArray[level => won? level + 1: level - 1];
             // console.log('currentLevel' + levelArray);

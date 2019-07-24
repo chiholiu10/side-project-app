@@ -24,16 +24,15 @@ const initialState = {
     disabled: false,
     counter: 0,
     soundToggle: false,
-    currentLevel: 1, //[1, 2, 3],
     score: 0,
-    level: [1, 2, 3]
+    currentLevel: 2,
+    countAttempts: 0
 }; 
 
 const reducer = (state = initialState, action) => {
     const introType = state.intro.type;
     const currentCardType = state.currentCardType;
     const memoryCardArray = state.memoryCards;
-    const levelArray = state.level;
     switch (action.type) {
         
         case types.NEXT_CLICK: {
@@ -109,6 +108,8 @@ const reducer = (state = initialState, action) => {
 
                 }
             } else {
+                if(state.score <= 0) return { ...state, score: 0 }
+
                 return {
                     ...state,
                     score: state.score - 200
@@ -121,27 +122,42 @@ const reducer = (state = initialState, action) => {
             const result = memoryCardArray.filter(card => {
                 const matchCardType = (card.type === introType);
                 const newCards = (matchCardType && (card.hasOwnProperty('disabled')));
-                const cardLeft = matchCardType - newCards;
+                const currentCardLeft = matchCardType - newCards;
 
-                return cardLeft
+                return currentCardLeft 
             });
-            
-            if(result.length === 0) {
-                
-                console.log('winner or loser');
-            }
 
-            console.log(result.length);
-            // console.log(result);
-            // const won = true;
-            // let currentLevel = levelArray[level => won? level + 1: level - 1];
-            // console.log('currentLevel' + levelArray);
+            const attempts = Math.ceil(memoryCardArray.length / 1.5);
+            const gameResult = ((state.countAttempts < attempts));
+            
+            if((result.length === 0)) {
+                gameResult ? console.log('win'): console.log('lose');
+
+                const newCardArray = memoryCardArray.map((card) => {
+                    return {
+                        ...card,
+                        flipped: true,
+                        disabled: true
+                    }
+                });
+
+                return {
+                    ...state, 
+                    memoryCards: newCardArray
+                }
+            } 
+
+            return {
+                ...state,
+                countAttempts: state.countAttempts += 1
+            }
         }
 
         default:
             return state;
     }
 }
+
 
 
 const handlePageChange = (currentPage, numPlayed) => {

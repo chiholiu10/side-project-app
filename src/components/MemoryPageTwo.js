@@ -2,15 +2,17 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { memoryCardCheck, calculation, checkMatchCard, checkResult } from '../actions/app';
 
-const MemoryPageTwo = ({ chosenImage, memoryCardCheck, calculation, checkMatchCard, checkResult }) => {
+const MemoryPageTwo = ({ chosenImage, memoryCardCheck, calculation, checkMatchCard, checkResult, level }) => {
 
-    function checkCard(currentCardType, index) {
+    const checkCard = (currentCardType, index) => {
         setTimeout(() => 
             checkMatchCard(currentCardType[index].type, index), 1000);   
     }
 
     let memoryCardsOutput = chosenImage.map((card, index, currentCardType) => {  
+        
         return (
+            
             <div key={index}>
                 <img 
                     className={ card.flipped ? 'memory-card flipped' : 'memory-card unflipped' }  

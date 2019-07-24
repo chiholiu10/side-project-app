@@ -17,7 +17,6 @@ const DifferencePageTwo = ({ newCard, page, memoryCards }) => {
             <div>{newCard.maxSpeed}</div>
             <div>{newCard.maxPassenger}</div>
             <img src={newCard.imageUrl}/>
-            <div>Level {newCard.level}</div>
         </div>
     )
 }

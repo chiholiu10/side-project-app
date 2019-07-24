@@ -1,5 +1,8 @@
 .App {
   text-align: center;
+  margin: 0;
+  padding: 0;
+  width: 100%;
 }
 
 .App-logo {
@@ -19,4 +22,10 @@
 
 img[disabled] {
   pointer-events: none;
+}
+
+.memory-card {
+  border: 1px solid red;
+  width: 33.33%;
+  float: left;
 }

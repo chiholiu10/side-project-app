@@ -53,7 +53,7 @@ const mapStateToProps = state => {
     return {
         soundToggle: state.app.soundToggle || [],
         score: state.app.score || [],
-        level: state.app.level || []
+        level: state.app.currentLevel || []
     }
 }
 

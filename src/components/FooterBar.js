@@ -23,15 +23,14 @@ const FooterBar = ({ soundToggle, toggleSound, url, score, level }) => {
     const [playing, toggle] = useAudio(url);
 
     return (
-        
         <div>
-            <div>Level {level} </div>
-            <div>Score: {score}</div>
+            <div>Level { level } </div>
+            <div>Score: { score }</div>
             <div>Goal</div>
             <div>
                 <button 
-                    className={soundToggle ? 'sound on' : 'sound off' }
-                    onClick={toggleSound(toggle)}
+                    className={ soundToggle ? 'sound on' : 'sound off' }
+                    onClick={ toggleSound(toggle) }
                 >{playing ? "Pause": "Play"}</button>
             </div>
         </div>

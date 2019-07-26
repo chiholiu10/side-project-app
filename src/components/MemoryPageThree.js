@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 const DifferencePageTwo = ({introType, currentCardType}) => {
-    
+    console.log('pageThree')
     return (
         <div>MemoryPageThree</div>
     )

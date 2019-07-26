@@ -1,24 +1,23 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import CountDown from './CountDown';
 import { memoryCardCheck, calculation, checkMatchCard, checkResult } from '../actions/app';
 
-const MemoryPageTwo = ({ chosenImage, memoryCardCheck, calculation, checkMatchCard, checkResult, level }) => {
-
+const MemoryPageTwo = ({ chosenImage, memoryCardCheck, calculation, checkMatchCard, checkResult }) => {
+    
     const checkCard = (currentCardType, index) => {
         setTimeout(() => 
             checkMatchCard(currentCardType[index].type, index), 1000);   
     }
 
     let memoryCardsOutput = chosenImage.map((card, index, currentCardType) => {  
-        
         return (
-            
             <div key={index}>
                 <img 
                     className={ card.flipped ? 'memory-card flipped' : 'memory-card unflipped' }  
                     alt={ card.name } 
                     src={ card.imageUrl }
-                    disabled={card.disabled }
+                    disabled={ card.disabled }
                     onClick={() => { 
                         memoryCardCheck(index); 
                         calculation(); 
@@ -33,10 +32,14 @@ const MemoryPageTwo = ({ chosenImage, memoryCardCheck, calculation, checkMatchCa
     return (
         <div>
             MemoryPageTwo
+            <CountDown/>
             { memoryCardsOutput }
         </div>
     )
+
 }
+
+
 
 const mapDispatchToProps = dispatch => ({
     memoryCardCheck: index => dispatch(memoryCardCheck(index)),

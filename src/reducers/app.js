@@ -143,7 +143,8 @@ const reducer = (state = initialState, action) => {
 
                 return {
                     ...state, 
-                    memoryCards: newCardArray
+                    memoryCards: newCardArray,
+
                 }
             } 
 

@@ -30,7 +30,8 @@ const initialState = {
 }; 
 
 const reducer = (state = initialState, action) => {
-    const introType = state.intro.type;
+    const introType = state.intro;
+    console.log('introType ' + introType);
     const currentCardType = state.currentCardType;
     const memoryCardArray = state.memoryCards;
     switch (action.type) {
@@ -49,6 +50,7 @@ const reducer = (state = initialState, action) => {
         }
 
         case types.MATH_RANDOM: {
+            console.log('math random')
             return {
                 ...state,
                 intro: memoryCardArray[action.randomIndex]
@@ -131,26 +133,26 @@ const reducer = (state = initialState, action) => {
             const gameResult = ((state.countAttempts < attempts));
             
             if((result.length === 0)) {
-                gameResult ? console.log('win'): console.log('lose');
-
                 const newCardArray = memoryCardArray.map((card) => {
                     return {
                         ...card,
                         flipped: true,
-                        disabled: true
+                        disabled: true,
+                        seconds: Math.floor(60 * state.level / 1.5)
                     }
                 });
 
                 return {
                     ...state, 
                     memoryCards: newCardArray,
-
+                    currentLevel: gameResult ? state.currentLevel + 1 : state.currentLevel - 1
                 }
-            } 
+            }
 
             return {
                 ...state,
-                countAttempts: state.countAttempts += 1
+                countAttempts: state.countAttempts += 1,
+
             }
         }
 

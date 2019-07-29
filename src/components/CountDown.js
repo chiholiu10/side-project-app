@@ -1,8 +1,14 @@
 import React, { useEffect, useState, useRef } from 'react';
+import { connect } from 'react-redux';
 
-const CountDown = () => {
+const CountDown = ({curLevel}) => {
+    const newTimer = curLevel * 15;
     const timeRef = useRef(null);
-    const [ seconds, setSeconds ] = useState(10);
+    const level = useRef(null);
+    const [ seconds, setSeconds ] = useState(newTimer);
+    const [ isCurrentLevel , setLevel ] = useState(false);
+
+    // countdown
 
     useEffect(() => {
         const timer = setInterval(() => setSeconds(seconds => seconds - 1), 1000);
@@ -11,10 +17,24 @@ const CountDown = () => {
     }, []);
 
     useEffect(() => {
-        if(seconds === 0) clearInterval(timeRef.current);
-    }, [seconds]);
+        if(seconds === 0 || isCurrentLevel ) clearInterval(timeRef.current);
 
-    const percentage = Math.floor(100 / 60 * seconds);
+    }, [seconds, isCurrentLevel]);
+
+    // level comparison
+    
+    useEffect(() => {
+        const storedLevel = curLevel;
+      
+        level.current = storedLevel;
+        return () => storedLevel
+    }, []);
+
+    useEffect(() => {
+        setLevel(level.current !== curLevel);
+    },[level.current, curLevel]);
+
+    const percentage = Math.floor(100 / newTimer * seconds);
     
     const divStyle = {
         width:  `${percentage}%`,
@@ -52,4 +72,13 @@ const CountDown = () => {
     )
 }
 
-export default CountDown;
+
+
+const mapStateToProps = state => {
+    console.log(state.app.currentLevel);
+    return {
+        curLevel: state.app.currentLevel
+    }
+}
+
+export default connect(mapStateToProps, null)(CountDown);

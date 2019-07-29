@@ -1,16 +1,22 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { getRandomIndex } from '../actions/app';
 import { store } from '../index.js';
  
 const DifferencePageTwo = ({ newCard, page, memoryCards }) => {
-    
-    if (page === "GameTwoPageOne") {
+
+    useEffect(() => {
+    getIndex()
+  
+    }, [])
+
+    const getIndex = () => {
         const randomIndex = Math.floor(Math.random() * memoryCards.length);
-        store.dispatch(getRandomIndex(randomIndex));
+       store.dispatch(getRandomIndex(randomIndex));
     }
 
     return (
+        
         <div>
             <div>{newCard.name}</div>
             <div>{newCard.type}</div>
@@ -21,6 +27,11 @@ const DifferencePageTwo = ({ newCard, page, memoryCards }) => {
     )
 }
 
+const mapDispatchToProps = dispatch => ({
+    getRandomIndex: randomIndex => dispatch(getRandomIndex(randomIndex))
+    
+})
+
 const mapStateToProps = state => {
     return {
         newCard: state.app.intro || [],
@@ -29,4 +40,4 @@ const mapStateToProps = state => {
     }
 }
 
-export default connect(mapStateToProps, null)(DifferencePageTwo);
+export default connect(mapStateToProps, mapDispatchToProps)(DifferencePageTwo);

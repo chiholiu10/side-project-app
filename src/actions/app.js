@@ -21,12 +21,10 @@ export const memoryCardCheck = index => ({
     disabled: true
 });
 
-export const getRandomIndex = randomIndex => {
-    return {
-        type: types.MATH_RANDOM,
-        randomIndex
-    }
-};
+export const getRandomIndex = randomIndex => ({
+    type: types.MATH_RANDOM,
+    randomIndex
+});
 
 export const toggleSound = () => ({
     type: types.TOGGLE_SOUND
@@ -42,8 +40,7 @@ export const checkMatchCard = (currentCardType, index) => ({
     index
 });
 
-export const checkResult = (chosenImage, index) => ({
+export const checkResult = chosenImage => ({
     type: types.CHECK_RESULT,
-    chosenImage,
-    index
+    chosenImage
 })

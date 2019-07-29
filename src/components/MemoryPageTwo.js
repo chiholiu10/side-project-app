@@ -39,8 +39,6 @@ const MemoryPageTwo = ({ chosenImage, memoryCardCheck, calculation, checkMatchCa
 
 }
 
-
-
 const mapDispatchToProps = dispatch => ({
     memoryCardCheck: index => dispatch(memoryCardCheck(index)),
     calculation: () => dispatch(calculation()),

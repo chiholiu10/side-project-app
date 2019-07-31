@@ -358,4 +358,44 @@ export const CardJson = [{
     imageUrl: "../assets/klm9.jpeg",
     level: 2,
     flipped: false
-}];
+},{
+    name: "Boeing",
+    type: "737-700",
+    maxSpeed: 850,
+    maxPassengers: 142,
+    imageName: "klm3",
+    imageUrl: "../assets/klm3.jpg",
+    level: 3,
+    flipped: false
+},{
+    name: "Boeing",
+    type: "737-700",
+    maxSpeed: 850,
+    maxPassengers: 142,
+    imageName: "klm3",
+    imageUrl: "../assets/klm3.jpg",
+    level: 3,
+    flipped: false
+},{
+    name: "Boeing",
+    type: "777-200ER",
+    maxSpeed: 920,
+    maxPassengers: 268,
+    imageName: "klm8",
+    imageUrl: "../assets/klm8.jpg",
+    level: 3,
+    flipped: false
+},
+{
+    name: "Boeing",
+    type: "777-300ER",
+    maxSpeed: 920,    
+    maxPassengers: 408,
+    imageName: "klm9",
+    imageUrl: "../assets/klm9.jpeg",
+    level: 3,
+    flipped: false
+}
+
+
+];

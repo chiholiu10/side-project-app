@@ -21,8 +21,8 @@ const CountDown = ({curLevel}) => {
 
     }, [seconds, isCurrentLevel]);
 
-    // level comparison
     
+    // level comparison
     useEffect(() => {
         const storedLevel = curLevel;
       
@@ -75,7 +75,6 @@ const CountDown = ({curLevel}) => {
 
 
 const mapStateToProps = state => {
-    console.log(state.app.currentLevel);
     return {
         curLevel: state.app.currentLevel
     }

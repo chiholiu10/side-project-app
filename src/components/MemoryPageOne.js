@@ -6,12 +6,11 @@ import { store } from '../index.js';
 const DifferencePageTwo = ({ newCard, page, memoryCards }) => {
 
     useEffect(() => {
-    getIndex()
-  
+        getIndex()
     }, [])
 
     const getIndex = () => {
-        const randomIndex = Math.floor(Math.random() * memoryCards.length);
+        const randomIndex = Math.round(Math.random() * memoryCards.length);
        store.dispatch(getRandomIndex(randomIndex));
     }
 

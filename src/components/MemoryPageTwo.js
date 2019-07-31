@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import CountDown from './CountDown';
 import { memoryCardCheck, calculation, checkMatchCard, checkResult } from '../actions/app';
@@ -22,7 +22,7 @@ const MemoryPageTwo = ({ chosenImage, memoryCardCheck, calculation, checkMatchCa
                         memoryCardCheck(index); 
                         calculation(); 
                         checkCard(currentCardType, index);
-                        checkResult(chosenImage);
+                        checkResult(chosenImage, card.type);
                     }}
                 />
             </div>
@@ -36,21 +36,20 @@ const MemoryPageTwo = ({ chosenImage, memoryCardCheck, calculation, checkMatchCa
             { memoryCardsOutput }
         </div>
     )
-
 }
 
 const mapDispatchToProps = dispatch => ({
     memoryCardCheck: index => dispatch(memoryCardCheck(index)),
     calculation: () => dispatch(calculation()),
     checkMatchCard: (currentCardType, index) => dispatch(checkMatchCard(currentCardType, index)),
-    checkResult: (chosenImage) => dispatch(checkResult(chosenImage))
+    checkResult: (chosenImage, cardType) => dispatch(checkResult(chosenImage, cardType))
 });
 
 const mapStateToProps = state => {
     return { 
         chosenImage: state.app.memoryCards || [],
-        introType: state.app.intro.type || [],
         currentCardType: state.app.currentCardType || [],
+        resultOfLength: state.app.resultLength || [],
         disabled: []
     }
 }

@@ -31,7 +31,6 @@ const initialState = {
 
 const reducer = (state = initialState, action) => {
     const introType = state.intro;
-    console.log('introType ' + introType);
     const currentCardType = state.currentCardType;
     const memoryCardArray = state.memoryCards;
     switch (action.type) {
@@ -39,8 +38,9 @@ const reducer = (state = initialState, action) => {
         case types.NEXT_CLICK: {
             const currentPage = state.page;
             const { page, numPlayed } = handlePageChange(currentPage, state.numPlayed);
+
             const filter = CardJson.filter(l => l.level === state.currentLevel);
-            
+       
             return { 
                 ...state,
                 numPlayed,
@@ -50,7 +50,6 @@ const reducer = (state = initialState, action) => {
         }
 
         case types.MATH_RANDOM: {
-            console.log('math random')
             return {
                 ...state,
                 intro: memoryCardArray[action.randomIndex]
@@ -103,11 +102,10 @@ const reducer = (state = initialState, action) => {
 
         case types.CALCULATION: {
             if(introType === currentCardType) {
-          
+                
                 return {
                     ...state,
                     score: state.score + 200,
-
                 }
             } else {
                 if(state.score <= 0) return { ...state, score: 0 }
@@ -120,19 +118,21 @@ const reducer = (state = initialState, action) => {
         }
 
         case types.CHECK_RESULT: {
-            
-            const result = memoryCardArray.filter(card => {
-                const matchCardType = (card.type === introType);
-                const newCards = (matchCardType && (card.hasOwnProperty('disabled')));
-                const currentCardLeft = matchCardType - newCards;
+            const matchCardType = memoryCardArray.filter(card => card.type === introType.type);
+            console.log(matchCardType);
 
-                return currentCardLeft 
+            const newCards = matchCardType.map(card => {
+                return card.hasOwnProperty('disabled') == true
             });
 
+            const flippedCards = newCards.every(x => x === true);
+            console.log(flippedCards);
+
             const attempts = Math.ceil(memoryCardArray.length / 1.5);
-            const gameResult = ((state.countAttempts < attempts));
-            
-            if((result.length === 0)) {
+            const gameResult = (state.countAttempts < attempts);
+
+            if(flippedCards && gameResult) {
+                
                 const newCardArray = memoryCardArray.map((card) => {
                     return {
                         ...card,
@@ -145,7 +145,9 @@ const reducer = (state = initialState, action) => {
                 return {
                     ...state, 
                     memoryCards: newCardArray,
-                    currentLevel: gameResult ? state.currentLevel + 1 : state.currentLevel - 1
+                    currentLevel: gameResult ? 
+                    state.currentLevel < 3 ? state.currentLevel + 1 : state.currentLevel = 3 : 
+                    state.currentLevel < 0 ?  state.currentLevel + 1 : state.currentLevel - 1
                 }
             }
 
@@ -155,6 +157,14 @@ const reducer = (state = initialState, action) => {
 
             }
         }
+
+        // case types.NEW_MEMORY_CARD_ARRAY: {
+        //     console.log(action.level);
+        //     return {
+        //         ...state,
+        //         currentLevel: action.level
+        //     }
+        // }
 
         default:
             return state;

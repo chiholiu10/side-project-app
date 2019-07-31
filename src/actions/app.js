@@ -5,7 +5,8 @@ export const types = {
     TOGGLE_SOUND: 'TOGGLE_SOUND',
     CALCULATION: 'CALCULATION',
     CHECK_MATCHED_CARD: 'CHECK_MATCHED_CARD',
-    CHECK_RESULT: 'CHECK_RESULT'
+    CHECK_RESULT: 'CHECK_RESULT',
+    NEW_MEMORY_CARD_ARRAY: 'NEW_MEMORY_CARD_ARRAY'
 }
 
 export const nextClick = pageTitle => {
@@ -19,6 +20,11 @@ export const memoryCardCheck = index => ({
     type: types.CARD_CHECK,
     index,
     disabled: true
+});
+
+export const newMemoryCardArray = level => ({
+    type: types.NEW_MEMORY_CARD_ARRAY,
+    level
 });
 
 export const getRandomIndex = randomIndex => ({
@@ -40,7 +46,9 @@ export const checkMatchCard = (currentCardType, index) => ({
     index
 });
 
-export const checkResult = chosenImage => ({
+export const checkResult = (chosenImage, cardType, introType) => ({
     type: types.CHECK_RESULT,
-    chosenImage
-})
+    chosenImage,
+    cardType,
+    introType
+});

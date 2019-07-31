@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-const DifferencePageTwo = ({introType, currentCardType}) => {
+const DifferencePageTwo = () => {
     console.log('pageThree')
     return (
         <div>MemoryPageThree</div>
@@ -10,8 +10,7 @@ const DifferencePageTwo = ({introType, currentCardType}) => {
 
 const mapStateToProps = state => {
     return {
-        introType: state.app.intro.type || [],
-        currentCardType: state.app.currentCardType || []
+        // currentCardType: state.app.currentCardType || []
     }
 }
 

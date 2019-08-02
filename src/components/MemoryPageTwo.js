@@ -1,18 +1,38 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { connect } from 'react-redux';
 import CountDown from './CountDown';
-import { memoryCardCheck, calculation, checkMatchCard, checkResult } from '../actions/app';
+import { memoryCardCheck, calculation, checkMatchCard, checkResult, disableCards } from '../actions/app';
 
-const MemoryPageTwo = ({ chosenImage, memoryCardCheck, calculation, checkMatchCard, checkResult }) => {
-    
+const MemoryPageTwo = ({ chosenImage, memoryCardCheck, calculation, checkMatchCard, checkResult, disabledAllCards }) => {
     const checkCard = (currentCardType, index) => {
         setTimeout(() => 
             checkMatchCard(currentCardType[index].type, index), 1000);   
     }
 
+    const boolean = useRef(null);
+    const [ isCurrentBoolean, setBoolean ] = useState(false);
+
+    useEffect(() => {
+        if(isCurrentBoolean) {
+            setTimeout(() => 
+                disableCards(), 1000);
+        }
+    }, [isCurrentBoolean]);
+    
+    useEffect(() => {
+        const storedBoolean = disabledAllCards ;
+      
+        boolean.current = storedBoolean;
+        return () => storedBoolean
+    }, []);
+
+    useEffect(() => {
+        setBoolean(boolean.current !== disabledAllCards);
+    },[boolean.current, disabledAllCards]);
+
     let memoryCardsOutput = chosenImage.map((card, index, currentCardType) => {  
         return (
-            <div key={index}>
+            <div key={ index }>
                 <img 
                     className={ card.flipped ? 'memory-card flipped' : 'memory-card unflipped' }  
                     alt={ card.name } 
@@ -42,15 +62,15 @@ const mapDispatchToProps = dispatch => ({
     memoryCardCheck: index => dispatch(memoryCardCheck(index)),
     calculation: () => dispatch(calculation()),
     checkMatchCard: (currentCardType, index) => dispatch(checkMatchCard(currentCardType, index)),
-    checkResult: (chosenImage, cardType) => dispatch(checkResult(chosenImage, cardType))
+    checkResult: (chosenImage, cardType) => dispatch(checkResult(chosenImage, cardType)),
+    disableCards: () => dispatch(disableCards())
 });
 
 const mapStateToProps = state => {
     return { 
         chosenImage: state.app.memoryCards || [],
         currentCardType: state.app.currentCardType || [],
-        resultOfLength: state.app.resultLength || [],
-        disabled: []
+        disabledAllCards: state.app.disableCards || false
     }
 }
 

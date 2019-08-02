@@ -26,7 +26,8 @@ const initialState = {
     soundToggle: false,
     score: 0,
     currentLevel: 2,
-    countAttempts: 0
+    countAttempts: 0,
+    disableCards: false
 }; 
 
 const reducer = (state = initialState, action) => {
@@ -119,25 +120,21 @@ const reducer = (state = initialState, action) => {
 
         case types.CHECK_RESULT: {
             const matchCardType = memoryCardArray.filter(card => card.type === introType.type);
-            console.log(matchCardType);
-
             const newCards = matchCardType.map(card => {
-                return card.hasOwnProperty('disabled') == true
+                return card.hasOwnProperty('disabled') === true
             });
 
             const flippedCards = newCards.every(x => x === true);
-            console.log(flippedCards);
 
             const attempts = Math.ceil(memoryCardArray.length / 1.5);
             const gameResult = (state.countAttempts < attempts);
-
-            if(flippedCards && gameResult) {
-                
+            console.log(state.seconds)
+            const gameCheck = ((flippedCards == true) || (gameResult == false));
+            
+            if(gameCheck) {
                 const newCardArray = memoryCardArray.map((card) => {
                     return {
                         ...card,
-                        flipped: true,
-                        disabled: true,
                         seconds: Math.floor(60 * state.level / 1.5)
                     }
                 });
@@ -145,26 +142,33 @@ const reducer = (state = initialState, action) => {
                 return {
                     ...state, 
                     memoryCards: newCardArray,
+                    disableCards: true,
                     currentLevel: gameResult ? 
                     state.currentLevel < 3 ? state.currentLevel + 1 : state.currentLevel = 3 : 
-                    state.currentLevel < 0 ?  state.currentLevel + 1 : state.currentLevel - 1
+                    state.currentLevel < 0 ? state.currentLevel = 1 : state.currentLevel - 1 
                 }
             }
 
             return {
                 ...state,
-                countAttempts: state.countAttempts += 1,
-
+                countAttempts: state.countAttempts += 1
             }
         }
 
-        // case types.NEW_MEMORY_CARD_ARRAY: {
-        //     console.log(action.level);
-        //     return {
-        //         ...state,
-        //         currentLevel: action.level
-        //     }
-        // }
+        case types.DISABLE_CARDS: {
+            console.log('hello');
+            // const allCards = memoryCardArray.map((card) => {
+            //     return {
+            //         ...card,
+            //         flipped: true,
+            //         disabled: true
+            //     }
+            // })
+            // return {
+            //     ...state,
+            //     memoryCards: allCards
+            // }
+        }
 
         default:
             return state;

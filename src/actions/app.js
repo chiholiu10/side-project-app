@@ -6,7 +6,8 @@ export const types = {
     CALCULATION: 'CALCULATION',
     CHECK_MATCHED_CARD: 'CHECK_MATCHED_CARD',
     CHECK_RESULT: 'CHECK_RESULT',
-    NEW_MEMORY_CARD_ARRAY: 'NEW_MEMORY_CARD_ARRAY'
+    NEW_MEMORY_CARD_ARRAY: 'NEW_MEMORY_CARD_ARRAY',
+    DISABLE_CARDS: 'DISABLE_CARDS'
 }
 
 export const nextClick = pageTitle => {
@@ -52,3 +53,7 @@ export const checkResult = (chosenImage, cardType, introType) => ({
     cardType,
     introType
 });
+
+export const disableCards = () => ({
+    type: types.DISABLE_CARDS
+})

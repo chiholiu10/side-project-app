@@ -1,7 +1,6 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
-import { toggleSound, newMemoryCardArray } from '../actions/app';
-import { store } from '../index';
+import { toggleSound } from '../actions/app';
 
 const useAudio = url => {
     const [ audio ] = useState(new Audio('http://www.kozco.com/tech/piano2.wav'));
@@ -21,27 +20,8 @@ const useAudio = url => {
 
 
 
-const FooterBar = ({ soundToggle, toggleSound, url, score, level, dispatch }) => {
+const FooterBar = ({ soundToggle, toggleSound, url, score, level }) => {
     const [playing, toggle] = useAudio(url);
-    // const [ levelChange , checkLevel ] = useState(false);
-    // const newLevel = useRef(null);
-
-    // useEffect(() => {
-    //     if(levelChange) {
-    //         store.dispatch(newMemoryCardArray(level));
-    //     }
-    // }, [levelChange]);
-        
-    // // level comparison
-    // useEffect(() => {
-    //     const storedLevel = level;
-    //     newLevel.current = storedLevel;
-    //     return () => storedLevel
-    // }, []);
-
-    // useEffect(() => {
-    //     checkLevel(newLevel.current !== level);
-    // },[newLevel.current, level ]);
     
     return (
         <div>
@@ -67,7 +47,7 @@ const mapDispatchToProps = dispatch => {
             }
         }
     }
-};
+}
 
 const mapStateToProps = state => {
     return {

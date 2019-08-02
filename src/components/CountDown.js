@@ -9,7 +9,6 @@ const CountDown = ({curLevel}) => {
     const [ isCurrentLevel , setLevel ] = useState(false);
 
     // countdown
-
     useEffect(() => {
         const timer = setInterval(() => setSeconds(seconds => seconds - 1), 1000);
         timeRef.current = timer;
@@ -17,11 +16,10 @@ const CountDown = ({curLevel}) => {
     }, []);
 
     useEffect(() => {
-        if(seconds === 0 || isCurrentLevel ) clearInterval(timeRef.current);
+        if( seconds === 0 || isCurrentLevel ) clearInterval(timeRef.current);
 
     }, [seconds, isCurrentLevel]);
 
-    
     // level comparison
     useEffect(() => {
         const storedLevel = curLevel;

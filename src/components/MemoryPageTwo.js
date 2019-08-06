@@ -1,9 +1,9 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { connect } from 'react-redux';
 import CountDown from './CountDown';
-import { memoryCardCheck, calculation, checkMatchCard, checkResult, disableCards } from '../actions/app';
+import { memoryCardCheck, calculation, checkMatchCard, checkResult, disableCards, checkLevel } from '../actions/app';
 
-const MemoryPageTwo = ({ chosenImage, memoryCardCheck, calculation, checkMatchCard, checkResult, disabledAllCards }) => {
+const MemoryPageTwo = ({ chosenImage, memoryCardCheck, calculation, checkMatchCard, checkResult, disabledAllCards, checkLevel }) => {
     const checkCard = (currentCardType, index) => {
         setTimeout(() => 
             checkMatchCard(currentCardType[index].type, index), 1000);   
@@ -13,14 +13,14 @@ const MemoryPageTwo = ({ chosenImage, memoryCardCheck, calculation, checkMatchCa
     const [ isCurrentBoolean, setBoolean ] = useState(false);
 
     useEffect(() => {
-        if(isCurrentBoolean) {
+        if(isCurrentBoolean) { 
             setTimeout(() => 
                 disableCards(), 1000);
         }
     }, [isCurrentBoolean]);
     
     useEffect(() => {
-        const storedBoolean = disabledAllCards ;
+        const storedBoolean = disabledAllCards;
       
         boolean.current = storedBoolean;
         return () => storedBoolean
@@ -43,6 +43,7 @@ const MemoryPageTwo = ({ chosenImage, memoryCardCheck, calculation, checkMatchCa
                         calculation(); 
                         checkCard(currentCardType, index);
                         checkResult(chosenImage, card.type);
+                        checkLevel();
                     }}
                 />
             </div>
@@ -63,7 +64,8 @@ const mapDispatchToProps = dispatch => ({
     calculation: () => dispatch(calculation()),
     checkMatchCard: (currentCardType, index) => dispatch(checkMatchCard(currentCardType, index)),
     checkResult: (chosenImage, cardType) => dispatch(checkResult(chosenImage, cardType)),
-    disableCards: () => dispatch(disableCards())
+    disableCards: () => dispatch(disableCards()),
+    checkLevel: () => dispatch(checkLevel())
 });
 
 const mapStateToProps = state => {

@@ -25,12 +25,14 @@ const initialState = {
     counter: 0,
     soundToggle: false,
     score: 0,
-    currentLevel: 2,
+    currentLevel: 1,
     countAttempts: 0,
-    disableCards: false
+    disableCards: false,
+    cardArrayCheck: [],
+    matchCard: []
 }; 
 
-const reducer = (state = initialState, action) => {
+export const reducer = (state = initialState, action) => {
     const introType = state.intro;
     const currentCardType = state.currentCardType;
     const memoryCardArray = state.memoryCards;
@@ -39,7 +41,6 @@ const reducer = (state = initialState, action) => {
         case types.NEXT_CLICK: {
             const currentPage = state.page;
             const { page, numPlayed } = handlePageChange(currentPage, state.numPlayed);
-
             const filter = CardJson.filter(l => l.level === state.currentLevel);
        
             return { 
@@ -120,62 +121,56 @@ const reducer = (state = initialState, action) => {
 
         case types.CHECK_RESULT: {
             const matchCardType = memoryCardArray.filter(card => card.type === introType.type);
-            const newCards = matchCardType.map(card => {
+            const newCards =  matchCardType.map(card => {
                 return card.hasOwnProperty('disabled') === true
             });
 
             const flippedCards = newCards.every(x => x === true);
-
-            const attempts = Math.ceil(memoryCardArray.length / 1.5);
-            const gameResult = (state.countAttempts < attempts);
-            console.log(state.seconds)
-            const gameCheck = ((flippedCards == true) || (gameResult == false));
-            
-            if(gameCheck) {
-                const newCardArray = memoryCardArray.map((card) => {
-                    return {
-                        ...card,
-                        seconds: Math.floor(60 * state.level / 1.5)
-                    }
-                });
-
-                return {
-                    ...state, 
-                    memoryCards: newCardArray,
-                    disableCards: true,
-                    currentLevel: gameResult ? 
-                    state.currentLevel < 3 ? state.currentLevel + 1 : state.currentLevel = 3 : 
-                    state.currentLevel < 0 ? state.currentLevel = 1 : state.currentLevel - 1 
-                }
-            }
-
+        
             return {
                 ...state,
-                countAttempts: state.countAttempts += 1
+                matchCard: flippedCards,
+                countAttempts: state.countAttempts + 1
             }
         }
 
-        case types.DISABLE_CARDS: {
-            console.log('hello');
-            // const allCards = memoryCardArray.map((card) => {
-            //     return {
-            //         ...card,
-            //         flipped: true,
-            //         disabled: true
-            //     }
-            // })
-            // return {
-            //     ...state,
-            //     memoryCards: allCards
-            // }
+        case types.STOP_TIMER: {
+            const newCardArray = memoryCardArray.map((card) => {
+                return {
+                    ...card,
+                    flipped: true,
+                    disabled: true
+                }
+            })
+            return {
+                ...state,
+                memoryCards: newCardArray,
+                disableCards: true
+            }
+        }
+
+
+        case types.CHECK_LEVEL: {
+            const attempts = Math.ceil(memoryCardArray.length / 1.5);
+            const gameResult = (state.countAttempts < attempts);
+            const gameCheck = ((state.matchCard === true) || (gameResult === false) || (state.disableCards === true));
+            const changeLevel = (state.matchCard === true && gameResult === true) && (state.matchCard === false && state.disableCards === true);
+
+            if(gameCheck) {
+                return {
+                    ...state, 
+                    disableCards: true,
+                    currentLevel: changeLevel ? 
+                    state.currentLevel < 3 ? state.currentLevel + 1 : state.currentLevel = 3 :
+                    state.currentLevel > 1 ? state.currentLevel - 1 : state.currentLevel = 1
+                }
+            }
         }
 
         default:
             return state;
     }
 }
-
-
 
 const handlePageChange = (currentPage, numPlayed) => {
     switch (currentPage) {

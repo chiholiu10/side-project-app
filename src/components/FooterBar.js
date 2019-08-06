@@ -18,8 +18,6 @@ const useAudio = url => {
     return [playing, toggle];
 };
 
-
-
 const FooterBar = ({ soundToggle, toggleSound, url, score, level }) => {
     const [playing, toggle] = useAudio(url);
     

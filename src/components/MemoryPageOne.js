@@ -7,11 +7,11 @@ const DifferencePageTwo = ({ newCard, page, memoryCards }) => {
 
     useEffect(() => {
         getIndex()
-    }, [])
+    }, []);
 
     const getIndex = () => {
         const randomIndex = Math.round(Math.random() * memoryCards.length);
-       store.dispatch(getRandomIndex(randomIndex));
+        store.dispatch(getRandomIndex(randomIndex));
     }
 
     return (
@@ -26,11 +26,6 @@ const DifferencePageTwo = ({ newCard, page, memoryCards }) => {
     )
 }
 
-const mapDispatchToProps = dispatch => ({
-    getRandomIndex: randomIndex => dispatch(getRandomIndex(randomIndex))
-    
-})
-
 const mapStateToProps = state => {
     return {
         newCard: state.app.intro || [],
@@ -39,4 +34,4 @@ const mapStateToProps = state => {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(DifferencePageTwo);
+export default connect(mapStateToProps, null)(DifferencePageTwo);

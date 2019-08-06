@@ -1,7 +1,8 @@
 import React, { useEffect, useState, useRef } from 'react';
+import { stopTimer, checkLevel } from '../actions/app';
 import { connect } from 'react-redux';
 
-const CountDown = ({curLevel}) => {
+const CountDown = ({ curLevel, stopTimer, checkLevel }) => {
     const newTimer = curLevel * 15;
     const timeRef = useRef(null);
     const level = useRef(null);
@@ -16,8 +17,11 @@ const CountDown = ({curLevel}) => {
     }, []);
 
     useEffect(() => {
-        if( seconds === 0 || isCurrentLevel ) clearInterval(timeRef.current);
-
+        if( seconds === 0 || isCurrentLevel ) {
+            clearInterval(timeRef.current);
+            stopTimer();
+            checkLevel();
+        }
     }, [seconds, isCurrentLevel]);
 
     // level comparison
@@ -70,12 +74,16 @@ const CountDown = ({curLevel}) => {
     )
 }
 
-
+const mapDispatchToProps = dispatch => ({
+    stopTimer: () => dispatch(stopTimer()),
+    checkLevel: () => dispatch(checkLevel())
+})
 
 const mapStateToProps = state => {
     return {
-        curLevel: state.app.currentLevel
+        curLevel: state.app.currentLevel,
+        timeStop: state.app.timer
     }
 }
 
-export default connect(mapStateToProps, null)(CountDown);
+export default connect(mapStateToProps, mapDispatchToProps)(CountDown);

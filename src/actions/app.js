@@ -7,7 +7,9 @@ export const types = {
     CHECK_MATCHED_CARD: 'CHECK_MATCHED_CARD',
     CHECK_RESULT: 'CHECK_RESULT',
     NEW_MEMORY_CARD_ARRAY: 'NEW_MEMORY_CARD_ARRAY',
-    DISABLE_CARDS: 'DISABLE_CARDS'
+    DISABLE_CARDS: 'DISABLE_CARDS',
+    STOP_TIMER: 'STOP_TIMER',
+    CHECK_LEVEL: 'CHECK_LEVEL'
 }
 
 export const nextClick = pageTitle => {
@@ -56,4 +58,12 @@ export const checkResult = (chosenImage, cardType, introType) => ({
 
 export const disableCards = () => ({
     type: types.DISABLE_CARDS
-})
+});
+
+export const stopTimer = () => ({
+    type: types.STOP_TIMER
+});
+
+export const checkLevel = () => ({
+    type: types.CHECK_LEVEL
+});

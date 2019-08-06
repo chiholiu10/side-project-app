@@ -120,17 +120,19 @@ export const reducer = (state = initialState, action) => {
         }
 
         case types.CHECK_RESULT: {
+            console.log('clicked');
             const matchCardType = memoryCardArray.filter(card => card.type === introType.type);
             const newCards =  matchCardType.map(card => {
                 return card.hasOwnProperty('disabled') === true
             });
 
             const flippedCards = newCards.every(x => x === true);
-        
+
             return {
                 ...state,
                 matchCard: flippedCards,
-                countAttempts: state.countAttempts + 1
+                countAttempts: state.countAttempts + 1,
+                score: state.matchCard ? state.score + 20 : state.score - 150
             }
         }
 
@@ -141,14 +143,15 @@ export const reducer = (state = initialState, action) => {
                     flipped: true,
                     disabled: true
                 }
-            })
+            });
+
             return {
                 ...state,
                 memoryCards: newCardArray,
-                disableCards: true
+                disableCards: true,
+                score: state.score - 300
             }
         }
-
 
         case types.CHECK_LEVEL: {
             const attempts = Math.ceil(memoryCardArray.length / 1.5);
@@ -161,8 +164,9 @@ export const reducer = (state = initialState, action) => {
                     ...state, 
                     disableCards: true,
                     currentLevel: changeLevel ? 
-                    state.currentLevel < 3 ? state.currentLevel + 1 : state.currentLevel = 3 :
-                    state.currentLevel > 1 ? state.currentLevel - 1 : state.currentLevel = 1
+                    state.currentLevel < 3 ?state.currentLevel + 1 : state.currentLevel = 3 :
+                    state.currentLevel > 1 ? state.currentLevel - 1 : state.currentLevel = 1,
+                    score: changeLevel ? state.score + 250 : state.score - 250
                 }
             }
         }

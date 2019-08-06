@@ -50,7 +50,7 @@ const mapDispatchToProps = dispatch => {
 const mapStateToProps = state => {
     return {
         soundToggle: state.app.soundToggle || [],
-        score: state.app.score || [],
+        score: state.app.score,
         level: state.app.currentLevel || []
     }
 }

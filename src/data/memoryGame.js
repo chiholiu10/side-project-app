@@ -395,7 +395,4 @@ export const CardJson = [{
     imageUrl: "../assets/klm9.jpeg",
     level: 3,
     flipped: false
-}
-
-
-];
+}];
